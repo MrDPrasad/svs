@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Shri Saraswathi Vidhyarthi Sangha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .calendar-day {
+            aspect-ratio: 1 / 1;
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 640px) {
+            .calendar-day { min-height: 55px; font-size: 0.875rem; }
+            .calendar-day span { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-blue-50 to-white min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="https://blog.sagarworld.com/wp-content/uploads/2022/11/saraswati.jpg" alt="SVS Logo" class="w-10 sm:w-12 h-10 sm:h-12 rounded-full object-cover">
+                <h1 class="text-xl sm:text-2xl md:text-3xl font-bold text-orange-700">SHRI SARASWATHI VIDHYARTHI SANGHA</h1>
+            </div>
+            <nav class="md:flex md:items-center">
+                <button id="menuBtn" class="md:hidden text-orange-700 focus:outline-none">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <ul id="mobileMenu" class="hidden md:flex flex-col md:flex-row md:space-x-6 lg:space-x-8 text-orange-800 font-medium absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-lg md:shadow-none p-6 md:p-0 space-y-4 md:space-y-0 z-40">
+                    <li><a href="index.html" class="hover:text-orange-600 block py-2">Home</a></li>
+                    <li><a href="about.html" class="hover:text-orange-600 block py-2">About</a></li>
+                    <li><a href="team.html" class="hover:text-orange-600 block py-2">Team</a></li>
+                    <li><a href="gallery.html" class="hover:text-orange-600 block py-2">Gallery</a></li>
+                    <li><a href="programs.html" class="hover:text-orange-600 block py-2">Programs</a></li>
+                    <li><a href="events.html" class="hover:text-orange-600 block py-2">Events</a></li>
+                    <li><a href="calendar.html" class="hover:text-orange-600 block py-2">Calendar</a></li>
+                    <li><a href="contact.html" class="hover:text-orange-600 block py-2">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-12 sm:py-16 lg:py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Events 2026</h2>
+            <p class="text-base sm:text-lg md:text-xl max-w-3xl mx-auto">
+                One structured program every month starting March 2026 + Special Trekking & Job Fair in Jan/Feb
+            </p>
+        </div>
+    </section>
+
+    <!-- Calendar & Upcoming Events -->
+    <section class="py-10 sm:py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Month Navigation -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 gap-4">
+                <button id="prevMonth" class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition w-full sm:w-auto text-sm sm:text-base">
+                    ← Previous Month
+                </button>
+                <h3 id="currentMonth" class="text-2xl sm:text-3xl font-bold text-orange-700">March 2026</h3>
+                <button id="nextMonth" class="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition w-full sm:w-auto text-sm sm:text-base">
+                    Next Month →
+                </button>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div id="calendarGrid" class="grid grid-cols-7 gap-1 sm:gap-2 text-center overflow-x-auto pb-4">
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Sun</div>
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Mon</div>
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Tue</div>
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Wed</div>
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Thu</div>
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Fri</div>
+                <div class="font-bold text-gray-600 text-xs sm:text-sm">Sat</div>
+            </div>
+
+            <!-- Upcoming Events List -->
+            <div class="mt-10 sm:mt-12">
+                <h4 class="text-xl sm:text-2xl font-bold text-orange-700 mb-6">Upcoming & Featured Events</h4>
+                <div id="eventsList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- Budget & Team Note -->
+            <div class="mt-12 bg-orange-50 p-6 sm:p-8 rounded-xl shadow">
+                <h4 class="text-lg sm:text-xl font-bold text-orange-700 mb-4">Transparency & Coordination</h4>
+                <p class="text-sm sm:text-base text-gray-700 mb-4">
+                    2026 program budget: ₹87,000 (covering 10 monthly events, 1 Annual Meetup, 3 specialized full-day programs, and digitization). Trekking and Job Fair are separate activities.
+                </p>
+                <p class="text-sm sm:text-base text-gray-700">
+                    Events are managed by our 4 core student-led teams: Event (on-ground execution), Social Media (promotion & content), Outreach (speakers & relations), Tech (website & registration). Weekly reviews and shared tools ensure smooth coordination.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Detail Modal -->
+    <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-orange-700 mb-3"></h3>
+            <p id="modalDate" class="text-gray-600 mb-4 text-sm sm:text-base"></p>
+            <p id="modalDesc" class="text-gray-700 mb-6 text-sm sm:text-base"></p>
+            <a id="modalRegister" href="#" target="_blank" class="bg-orange-600 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-700 transition block text-center text-sm sm:text-base">
+                Register Now
+            </a>
+            <button id="closeModal" class="mt-6 text-gray-600 hover:text-orange-600 block mx-auto text-sm sm:text-base">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // Calendar Logic
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        let currentYear = 2026;
+        let currentMonthIndex = 2; // Start at March
+
+        // Events from POA + your request
+        const eventsData = {
+            "2026-01-18": { title: "Trekking Program – January Slot", desc: "One/two-day structured trekking for team bonding, leadership, discipline & resilience. Safety ensured. Registration via website.", register: "https://forms.gle/placeholder-trekking-jan" },
+            "2026-02-15": { title: "Job Fair – February Slot", desc: "Employment & internship opportunities. Company invitations, pre-registration, resume support, on-spot interviews.", register: "https://forms.gle/placeholder-jobfair-feb" },
+            "2026-03-01": { title: "Tech Event & Monthly Program Launch", desc: "Expert talk + Interactive tech workshop. First monthly structured program of 2026.", register: "https://forms.gle/svs-march-2026" },
+            "2026-04-12": { title: "April Monthly Program", desc: "Guest session + Workshop + Student engagement (competition/group task)", register: "https://forms.gle/svs-april" },
+            "2026-05-18": { title: "May Monthly Program", desc: "Career guidance focus + Personality development activity", register: "https://forms.gle/svs-may" },
+            "2026-06-08": { title: "June Monthly Program", desc: "Leadership & team building interactive session", register: "https://forms.gle/svs-june" },
+            "2026-07-20": { title: "July Monthly Program", desc: "Industry exposure talk + Practical activity", register: "https://forms.gle/svs-july" },
+            "2026-08-10": { title: "August Monthly Program", desc: "Entrepreneurship & innovation workshop", register: "https://forms.gle/svs-august" },
+            "2026-09-14": { title: "September Monthly Program", desc: "Competitive exam awareness + Health & well-being session", register: "https://forms.gle/svs-september" },
+            "2026-10-25": { title: "October Monthly Program", desc: "Communication skills + Presentation competition", register: "https://forms.gle/svs-october" },
+            "2026-11-09": { title: "November Monthly Program", desc: "Expert talk + Group task engagement", register: "https://forms.gle/svs-november" },
+            "2026-12-20": { title: "December Monthly Program + Annual Meetup", desc: "Final monthly session + Flagship annual gathering for all stakeholders", register: "https://forms.gle/svs-december-annual" }
+        };
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const monthTitle = document.getElementById('currentMonth');
+            const eventsList = document.getElementById('eventsList');
+
+            // Clear old content
+            while (grid.children.length > 7) grid.removeChild(grid.lastChild);
+            eventsList.innerHTML = '';
+
+            monthTitle.textContent = `${months[currentMonthIndex]} ${currentYear}`;
+
+            const firstDay = new Date(currentYear, currentMonthIndex, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonthIndex + 1, 0).getDate();
+
+            // Empty cells
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'bg-gray-100 rounded';
+                grid.appendChild(empty);
+            }
+
+            // Render days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = `${currentYear}-${String(currentMonthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day bg-white border border-gray-200 rounded hover:bg-orange-50 cursor-pointer transition';
+                dayEl.innerHTML = `<span class="font-medium">${day}</span>`;
+
+                if (eventsData[dateKey]) {
+                    const dot = document.createElement('div');
+                    dot.className = 'w-2 h-2 bg-orange-500 rounded-full mt-1';
+                    dayEl.appendChild(dot);
+                    dayEl.dataset.date = dateKey;
+                    dayEl.addEventListener('click', showEvent);
+                }
+
+                grid.appendChild(dayEl);
+            }
+
+            // Render upcoming events (next 4–5)
+            const upcoming = Object.entries(eventsData)
+                .filter(([date]) => new Date(date) >= new Date())
+                .slice(0, 5);
+
+            upcoming.forEach(([date, event]) => {
+                const card = document.createElement('div');
+                card.className = 'bg-orange-50 p-6 rounded-xl shadow hover:shadow-md transition';
+                card.innerHTML = `
+                    <h5 class="text-lg sm:text-xl font-bold text-orange-700 mb-2">${event.title}</h5>
+                    <p class="text-gray-600 text-sm sm:text-base mb-3">
+                        ${new Date(date).toLocaleDateString('en-IN', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                    </p>
+                    <p class="text-gray-700 text-sm sm:text-base mb-4">${event.desc}</p>
+                    <a href="${event.register}" target="_blank" class="inline-block bg-orange-600 text-white px-6 py-2.5 rounded-full hover:bg-orange-700 text-sm sm:text-base">
+                        Register Now
+                    </a>
+                `;
+                eventsList.appendChild(card);
+            });
+        }
+
+        function showEvent(e) {
+            const dateKey = e.currentTarget.dataset.date;
+            const event = eventsData[dateKey];
+            if (!event) return;
+
+            document.getElementById('modalTitle').textContent = event.title;
+            document.getElementById('modalDate').textContent = new Date(dateKey).toLocaleDateString('en-IN', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            document.getElementById('modalDesc').textContent = event.desc;
+            document.getElementById('modalRegister').href = event.register;
+            document.getElementById('eventModal').classList.remove('hidden');
+        }
+
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('eventModal').classList.add('hidden');
+        });
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonthIndex = (currentMonthIndex - 1 + 12) % 12;
+            if (currentMonthIndex === 11) currentYear--;
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonthIndex = (currentMonthIndex + 1) % 12;
+            if (currentMonthIndex === 0) currentYear++;
+            renderCalendar();
+        });
+
+        // Initial render
+        renderCalendar();
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-orange-700 text-white py-8 sm:py-12 text-center mt-12">
+        <p class="text-base sm:text-lg">Student Overall Development Initiative – 2026</p>
+        <p class="mt-2 text-sm sm:text-base">© 2026 Shri Saraswathi Vidhyarthi Sangha | Subsidiary of BGSSB Balavalijar Saraswat Brahmin Samaj Puttur</p>
+    </footer>
+
+</body>
+</html>
